@@ -1,23 +1,40 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 // Image data
-import photo1 from '@/assets/dummy-photos/IMG_7106.jpeg';
-import photo2 from '@/assets/dummy-photos/IMG_1791.jpeg';
+import photo1 from '@/assets/IMG_7106.jpeg';
+import photo2 from '@/assets/IMG_1791.jpeg';
+const photos = [photo1, photo2];
+
+const preloadedImages = ref([]);
+
+// Preload function
+const preloadImages = (imageUrls) => {
+  imageUrls.forEach((url) => {
+    const img = new Image();
+    img.src = url;
+    preloadedImages.value.push(img);
+  });
+};
+
+// Preload images when the component mounts
+onMounted(() => {
+  preloadImages(photos);
+});
 
 // Reactive state for modal
 const selectedImage = ref(null); // The image to display in the modal
 const isModalOpen = ref(false); // Modal visibility state
 
-// Function to open modal
-function openModal(image) {
-  selectedImage.value = image;
-  isModalOpen.value = true;
-}
+// Function to open modal and set selected image
+const openModal = (photo) => {
+  selectedImage.value = photo;  // Set the selected image for the modal
+  isModalOpen.value = true;     // Open the modal
+};
 
 // Function to close modal
 function closeModal() {
-  isModalOpen.value = false;
+  isModalOpen.value = false; // Close the modal
 }
 </script>
 
@@ -29,7 +46,7 @@ function closeModal() {
     </p>
     <div class="gallery">
       <img
-          v-for="(photo, index) in [photo1, photo2]"
+          v-for="(photo, index) in photos"
           :key="index"
           :src="photo"
           alt="Headshot"
@@ -93,6 +110,7 @@ h1 {
 }
 
 /* Modal styles */
+/* Modal styles */
 .modal {
   position: fixed;
   top: 0;
@@ -106,19 +124,23 @@ h1 {
   z-index: 1000;
 }
 
+/* Ensure modal content doesn't overflow */
 .modal-content {
   position: relative;
-  max-width: 90%;
-  max-height: 90%;
-  overflow: hidden;
+  width: 90%; /* Reduce size slightly to allow image margin */
+  height: 90%; /* Reduce size slightly to allow image margin */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+/* Image inside the modal */
 .modal-content img {
-  width: 100%;
-  height: auto;
+  width: 100%; /* Make sure image doesn't exceed modal width */
+  height: 100%; /* Make sure image doesn't exceed modal height */
+  object-fit: contain; /* Maintain aspect ratio and avoid cropping */
   border-radius: 8px;
 }
-
 /* Close button */
 .close-button {
   position: absolute;
