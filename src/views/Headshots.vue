@@ -57,9 +57,10 @@ function closeModal() {
 
     <!-- Modal -->
     <div v-if="isModalOpen" class="modal" @click.self="closeModal">
-      <div class="modal-content">
-        <img :src="selectedImage" alt="Full-size image" />
-        <button class="close-button" @click="closeModal">Close</button>
+      <div class="modal-content" @click.stop>
+        <div class="modal-image-wrapper" @click="closeModal">
+          <img :src="selectedImage" alt="Full-size image" />
+        </div>
       </div>
     </div>
   </div>
@@ -110,7 +111,6 @@ h1 {
 }
 
 /* Modal styles */
-/* Modal styles */
 .modal {
   position: fixed;
   top: 0;
@@ -124,39 +124,31 @@ h1 {
   z-index: 1000;
 }
 
-/* Ensure modal content doesn't overflow */
+/* Modal content wrapper */
 .modal-content {
   position: relative;
-  width: 90%; /* Reduce size slightly to allow image margin */
-  height: 90%; /* Reduce size slightly to allow image margin */
+  width: 90%; /* Modal container takes up 90% of the screen width */
+  height: 90%; /* Modal container takes up 90% of the screen height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Image wrapper to make sure clicking on it closes the modal */
+.modal-image-wrapper {
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* Image inside the modal */
+/* Image styling to fit within the modal */
 .modal-content img {
-  width: 100%; /* Make sure image doesn't exceed modal width */
-  height: 100%; /* Make sure image doesn't exceed modal height */
-  object-fit: contain; /* Maintain aspect ratio and avoid cropping */
+  width: auto;
+  height: 90%; /* Image height should not exceed modal container */
+  object-fit: contain; /* Ensure the image scales properly within the modal */
   border-radius: 8px;
-}
-/* Close button */
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #ff6666;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.close-button:hover {
-  background: #ff4d4d;
 }
 </style>
