@@ -100,11 +100,11 @@ function toggleMenu() {
 }
 
 .nav-link:hover {
-  color: #ffcc00;
+  color: #4CB7F0;
 }
 
 .nav-link.router-link-active {
-  border-bottom: 2px solid #ffcc00;
+  border-bottom: 2px solid #4CB7F0;
 }
 
 /* For mobile responsiveness */
