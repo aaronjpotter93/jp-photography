@@ -2,9 +2,15 @@
 import { ref, onMounted } from 'vue';
 
 // Image data
-import photo1 from '@/assets/IMG_7106.jpeg';
-import photo2 from '@/assets/IMG_1791.jpeg';
-const photos = [photo1, photo2];
+import photo1 from '@/assets/dan_white_background.jpeg';
+import photo2 from '@/assets/dan_black_background.jpeg';
+import photo3 from '@/assets/9O3A0727-4_Original.jpg'
+import photo4 from '@/assets/2D8F55AD-D2E8-4B87-BA3E-0A944E1168EE.jpeg'
+import photo5 from '@/assets/2F35F3C1-2C5D-4A9A-8478-3C85F8D9B928.jpeg'
+import photo6 from '@/assets/5B720417-AC8F-46AE-847C-12409C38BA9A.jpeg'
+import photo7 from '@/assets/401DF2B2-8F53-476B-BEE5-A84016212487.jpeg'
+
+const photos = [photo1, photo2, photo3, photo4, photo5, photo6, photo7];
 
 const preloadedImages = ref([]);
 
@@ -89,16 +95,24 @@ h1 {
 
 /* Gallery container */
 .gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr); /* Responsive columns */
+  gap: 1rem; /* Space between grid items */
   padding: 1rem;
+  justify-content: center; /* Center the grid items */
 }
 
-/* Individual gallery item */
-.gallery-item {
-  width: 100%;
+/* Override inline styles */
+.gallery > img {
+  width: 100%; /* Ensure images fit their grid cells */
   height: auto;
+  object-fit: cover; /* Ensure consistent image scaling */
+}
+
+.gallery-item {
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  object-fit: cover;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   cursor: pointer;
@@ -108,6 +122,19 @@ h1 {
 .gallery-item:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .gallery {
+    grid-template-columns: repeat(1, 1fr); /* 1 column for smaller screens */
+  }
 }
 
 /* Modal styles */
@@ -132,7 +159,6 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
 }
 
 /* Image wrapper to make sure clicking on it closes the modal */
